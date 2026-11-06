@@ -47,6 +47,45 @@ try {
   assert.equal(await toggle.getAttribute('aria-expanded'), 'false');
   await page.setViewportSize({ width: 1440, height: 1000 });
   assert.equal(await page.getByRole('navigation').isVisible(), true);
+  const readability = await page.evaluate(() => {
+    const font = (selector) => Number.parseFloat(getComputedStyle(document.querySelector(selector)).fontSize);
+    const banner = document.querySelector('.signal-band').getBoundingClientRect();
+    const firstLabel = document.querySelector('#toolkit .section-heading .eyebrow').getBoundingClientRect();
+    return {
+      sectionLabel: font('#toolkit .section-heading .eyebrow'),
+      skillHeading: font('.skills-grid h3'),
+      cardLabel: font('.card-top'),
+      supportingCopy: font('.section-heading > p'),
+      bannerSecondary: font('.signal-grid span'),
+      panelLabel: font('.panel-top'),
+      bannerGap: firstLabel.top - banner.bottom,
+    };
+  });
+  for (const [label, size] of Object.entries(readability).filter(([key]) => key !== 'bannerGap')) {
+    assert.ok(size >= 12, `${label} should be at least 12px at desktop, got ${size}px`);
+  }
+  assert.ok(readability.bannerGap >= 70, `Desktop banner-to-heading gap should be >=70px, got ${readability.bannerGap}px`);
+  await page.setViewportSize({ width: 375, height: 812 });
+  const mobileReadability = await page.evaluate(() => {
+    const font = (selector) => Number.parseFloat(getComputedStyle(document.querySelector(selector)).fontSize);
+    const banner = document.querySelector('.signal-band').getBoundingClientRect();
+    const firstLabel = document.querySelector('#toolkit .section-heading .eyebrow').getBoundingClientRect();
+    return {
+      sectionLabel: font('#toolkit .section-heading .eyebrow'),
+      skillHeading: font('.skills-grid h3'),
+      cardLabel: font('.card-top'),
+      supportingCopy: font('.section-heading > p'),
+      bannerSecondary: font('.signal-grid span'),
+      panelLabel: font('.panel-top'),
+      bannerGap: firstLabel.top - banner.bottom,
+      overflow: document.documentElement.scrollWidth > innerWidth,
+    };
+  });
+  for (const [label, size] of Object.entries(mobileReadability).filter(([key]) => key !== 'bannerGap' && key !== 'overflow')) {
+    assert.ok(size >= 12, `${label} should be at least 12px on mobile, got ${size}px`);
+  }
+  assert.ok(mobileReadability.bannerGap >= 45, `Mobile banner-to-heading gap should be >=45px, got ${mobileReadability.bannerGap}px`);
+  assert.equal(mobileReadability.overflow, false, 'Mobile layout should not overflow horizontally');
   const downloadPromise = page.waitForEvent('download');
   await page.getByRole('link', { name: /Download resume PDF/ }).click();
   const download = await downloadPromise;
@@ -71,7 +110,7 @@ try {
   assert.equal(new URL(plainPage.url()).hash, '#career');
   assert.ok(await plainPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
   await noJs.close();
-  console.log('Browser checks passed: 8 viewport widths, axe accessibility, keyboard/touch menu, navigation, no-JS fallback, PDF download, print and reduced motion.');
+  console.log(`Browser checks passed: 8 viewport widths, axe accessibility, keyboard/touch menu, navigation, no-JS fallback, PDF download, print and reduced motion. Readability metrics: ${JSON.stringify({ desktop: readability, mobile: mobileReadability })}`);
 } finally {
   if (browser) await browser.close();
   server.kill();
