@@ -42,9 +42,9 @@ export async function generateResume(path) {
   text(r.introduction);
   heading('Experience');
   title(`${r.employer} | ${r.title} | ${r.tenure}`);
-  text(`${r.grade} (current level, not held throughout tenure).`);
+  text(r.grade);
   doc.moveDown(.35);
-  text('Responsibility phases (overlapping scopes, not separate job titles):', 10);
+  text('Responsibility phases:', 10);
   for (const p of r.phases) text(`${p.name}: ${p.dates}`, 10);
   text(r.management, 10);
   heading('Selected Cisco work');

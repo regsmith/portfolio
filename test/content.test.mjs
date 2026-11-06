@@ -18,6 +18,10 @@ test('semantic page exposes every shared career fact without JavaScript', () => 
     ...r.personal.flatMap((p) => [p.title, p.text, ...p.links.flatMap((l) => [l.label, l.url])]),
     ...Object.values(r.education),
   ]) assert.ok(html.includes(escapeHtml(value)), `Missing visible content: ${value}`);
+  assert.ok(html.includes("I've grown from manual test verification to developing full automation suites and into a technical and team leader."));
+  assert.ok(html.includes('Spec-driven development and multi-agent feature delivery'));
+  assert.ok(html.includes('Scrum facilitation'));
+  assert.doesNotMatch(html, /without stepping away from the work|not held throughout my tenure|Overlapping scopes within my formal Software Developer role|Scrum facilitation \/ master/);
   assert.equal((html.match(/<h1\b/g) ?? []).length, 1);
   assert.match(html, /<html lang="en">/);
   assert.match(html, /<main id="main">/);
@@ -62,6 +66,9 @@ test('generated PDF is two searchable pages, contains shared facts and live link
     ...Object.values(r.education),
     ...r.personal.flatMap((p) => [p.title, p.text, p.dates]),
   ]) assert.ok(text.includes(normalize(fact)), `PDF missing fact: ${fact}`);
+  for (const removed of ['without stepping away from the work', 'current level, not held throughout tenure', 'overlapping scopes, not separate job titles', 'Scrum facilitation / master']) {
+    assert.ok(!text.includes(removed), `PDF contains removed wording: ${removed}`);
+  }
   for (const url of [r.linkedin, ...r.personal.flatMap((p) => p.links.map((l) => l.url))]) {
     assert.ok(urls.includes(url), `PDF missing live link: ${url}`);
   }

@@ -10,7 +10,7 @@ const benchmark = {
 export const resume = {
   name: 'Reginald Smith',
   headline: 'Senior software & security engineering',
-  introduction: "I build dependable systems for the people shipping security software. At Cisco, I've grown from hands-on automation into technical and team leadership, without stepping away from the work.",
+  introduction: "I've grown from manual test verification to developing full automation suites and into a technical and team leader.",
   linkedin: 'https://www.linkedin.com/in/reg-smith-b877913a/',
   employer: 'Cisco',
   title: 'Software Developer',
@@ -77,7 +77,8 @@ export const resume = {
   skills: [
     { name: 'Cloud & delivery', items: ['AWS', 'vSphere', 'Terraform', 'Jenkins', 'Ansible', 'CI/CD', 'Build/release infrastructure'] },
     { name: 'Code & quality', items: ['Ruby', 'RSpec', 'Python', 'Shell', 'Git', 'QA automation', 'Windows / macOS / Linux'] },
-    { name: 'People & practice', items: ['Technical leadership', 'Team leadership', 'People management', 'Scrum facilitation / master'] },
+    { name: 'AI-assisted development', items: ['Spec-driven development and multi-agent feature delivery'] },
+    { name: 'People & practice', items: ['Technical leadership', 'Team leadership', 'People management', 'Scrum facilitation'] },
   ],
   approach: [
     { title: 'Keep useful work.', text: 'I look for the actual constraint. Separating analysis from successful builds made the DLP pipeline easier to rerun without throwing away good work.' },

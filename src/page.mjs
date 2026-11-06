@@ -59,8 +59,8 @@ export function renderPage() {
     <section id="experience" class="section shell" aria-labelledby="experience-title">
       <div class="section-heading"><div><p class="eyebrow">01 / Career & growth</p><h2 id="experience-title">One career.<br><em>Expanding responsibility.</em></h2></div><p>Deep product context. Broader ownership. Still building.</p></div>
       <div class="career-grid">
-        <article class="career-card"><div class="career-heading"><div><h3>${e(r.employer)}</h3><p class="formal-title">${e(r.title)}</p></div><span class="date">${e(r.tenure)}</span></div><p class="grade">${e(r.grade)} <span>— current level, not a title held throughout my tenure.</span></p>
-        <h4>Responsibility phases</h4><p class="small">Overlapping scopes within my formal Software Developer role, not separate job titles.</p><ul class="phases">${r.phases.map((p) => `<li><strong>${e(p.name)}</strong><span>${e(p.dates)}</span></li>`).join('')}</ul><p class="management">${e(r.management)}</p></article>
+        <article class="career-card"><div class="career-heading"><div><h3>${e(r.employer)}</h3><p class="formal-title">${e(r.title)}</p></div><span class="date">${e(r.tenure)}</span></div><p class="grade">${e(r.grade)}</p>
+        <h4>Responsibility phases</h4><ul class="phases">${r.phases.map((p) => `<li><strong>${e(p.name)}</strong><span>${e(p.dates)}</span></li>`).join('')}</ul><p class="management">${e(r.management)}</p></article>
         <aside class="education-card" aria-labelledby="education-title"><p class="eyebrow">Education</p><span class="education-year">${e(r.education.year)}</span><h3 id="education-title">${e(r.education.institution)}</h3><p>${e(r.education.qualification)}</p><span class="education-decoration" aria-hidden="true">↗</span></aside>
       </div>
     </section>
