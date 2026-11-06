@@ -24,6 +24,29 @@ export const resume = {
     { name: 'People manager', dates: '2024 - 2026' },
   ],
   management: 'Managed 3 employees through monthly check-ins, performance reviews, coaching and training recommendations.',
+  certification: {
+    name: 'Scrum Master certification',
+    date: 'July 2021',
+    activities: 'Facilitated Scrum ceremonies, story-point estimation, retrospectives, sprint reviews and refinement.',
+  },
+  careerHighlights: [
+    {
+      dates: 'September 2026',
+      text: 'Separated component tests and SonarQube from the multi-stage CI pipeline into independently rerunnable downstream jobs. S3 artifact handoffs avoided rebuilding for analysis reruns; the Windows SonarQube stage dropped from approximately 45–60 minutes to 4–10 minutes, reducing false negatives and full-PR reruns.',
+    },
+    {
+      dates: 'August 2025 - present',
+      text: 'Led, designed and built cross-platform build infrastructure for Cisco Endpoint DLP in Cisco Secure Client across Windows, macOS and Linux, with signing and compliance controls that prevent unsigned builds from reaching customers.',
+    },
+    {
+      dates: '2022 - August 2025',
+      text: 'Led the Secure Endpoint macOS/Linux build infrastructure move from vSphere to AWS ephemeral build nodes. Created Ansible roles for verified dependencies and CIS-hardened AMI rollouts, and organized Jenkins CI work with signing and compliance controls that kept unsigned builds from reaching customers.',
+    },
+    {
+      dates: '2015 - August 2025',
+      text: 'Built Ruby/RSpec automation for Secure Endpoint on macOS and Linux, installing the product and running regression scenarios to verify expected detection and quarantine behavior. The automation project continued after my contribution ended.',
+    },
+  ],
   work: [
     {
       id: 'pipeline',

@@ -40,29 +40,26 @@ export async function generateResume(path) {
   link('LinkedIn', r.linkedin);
   doc.moveDown(.6);
   text(r.introduction);
-  heading('Experience');
-  title(`${r.employer} | ${r.title} | ${r.tenure}`);
-  text(r.grade);
-  doc.moveDown(.35);
-  text('Responsibility phases:', 10);
-  for (const p of r.phases) text(`${p.name}: ${p.dates}`, 10);
-  text(r.management, 10);
   heading('Skills');
   for (const group of r.skills) {
     title(group.name);
     text(group.items.join(' / '), 10);
     doc.moveDown(.3);
   }
-  heading('Selected Cisco work');
-  project(r.work[0]);
-  project(r.work[1]);
+  heading('Career experience');
+  title(`${r.employer} | ${r.title} | ${r.tenure}`);
+  text(r.grade);
+  for (const item of r.careerHighlights) {
+    text(`${item.dates}: ${item.text}`, 10);
+    doc.moveDown(.3);
+  }
+  text(`Responsibility phases: ${r.phases.map((p) => `${p.name} (${p.dates})`).join('; ')}.`, 10);
+  text(r.management, 10);
+  text(`${r.certification.name}, ${r.certification.date}. ${r.certification.activities}`, 10);
 
   doc.addPage();
   doc.font('Helvetica-Bold').fontSize(16).fillColor(ink).text(r.name, { width });
   text('Resume / continued', 9);
-  heading('Selected Cisco work / continued');
-  project(r.work[2]);
-  project(r.work[3]);
   heading('How I work');
   for (const approach of r.approach) {
     title(approach.title);

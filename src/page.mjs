@@ -4,7 +4,7 @@ export const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (char) =>
 const e = escapeHtml;
 const arrow = '<span aria-hidden="true">↗</span>';
 const links = (items) => items.map(({ label, url }) => `<a class="text-link" href="${e(url)}">${e(label)} ${arrow}</a>`).join('');
-const nav = [['experience', 'Experience'], ['toolkit', 'Skills'], ['work', 'Selected work'], ['approach', 'How I work'], ['personal', 'Off the clock']];
+const nav = [['career', 'Experience'], ['toolkit', 'Skills'], ['work', 'Selected work'], ['approach', 'How I work'], ['personal', 'Off the clock']];
 
 export function renderPage() {
   const structuredData = {
@@ -56,18 +56,19 @@ export function renderPage() {
       </aside>
     </section>
     <div class="signal-band"><div class="shell signal-grid"><p><strong>${e(r.employer)}</strong><span>${e(r.tenure)}</span></p><p><strong>Hands-on + leadership</strong><span>Automation, infrastructure & people</span></p><p><strong>Three platforms</strong><span>Windows / macOS / Linux</span></p></div></div>
-    <section id="experience" class="section shell" aria-labelledby="experience-title">
-      <div class="section-heading"><div><p class="eyebrow">01 / Career & growth</p><h2 id="experience-title">One career.<br><em>Expanding responsibility.</em></h2></div><p>Deep product context. Broader ownership. Still building.</p></div>
-      <div class="career-grid">
-        <article class="career-card"><div class="career-heading"><div><h3>${e(r.employer)}</h3><p class="formal-title">${e(r.title)}</p></div><span class="date">${e(r.tenure)}</span></div><p class="grade">${e(r.grade)}</p>
-        <h4>Responsibility phases</h4><ul class="phases">${r.phases.map((p) => `<li><strong>${e(p.name)}</strong><span>${e(p.dates)}</span></li>`).join('')}</ul><p class="management">${e(r.management)}</p></article>
-        <aside class="education-card" aria-labelledby="education-title"><p class="eyebrow">Education</p><span class="education-year">${e(r.education.year)}</span><h3 id="education-title">${e(r.education.institution)}</h3><p>${e(r.education.qualification)}</p><span class="education-decoration" aria-hidden="true">↗</span></aside>
-      </div>
-    </section>
-    <section id="toolkit" class="section toolkit shell" aria-labelledby="toolkit-title"><div class="section-heading"><div><p class="eyebrow">02 / Skills &amp; qualifications</p><h2 id="toolkit-title">Across the <em>stack.</em></h2></div><p>Tools I use. Systems I understand. Teams I help move forward.</p></div><div class="skills-grid">${r.skills.map((s) => `<article><h3>${e(s.name)}</h3><ul>${s.items.map((item) => `<li>${e(item)}</li>`).join('')}</ul></article>`).join('')}</div></section>
+    <section id="toolkit" class="section toolkit shell" aria-labelledby="toolkit-title"><div class="section-heading"><div><p class="eyebrow">01 / Skills &amp; qualifications</p><h2 id="toolkit-title">Across the <em>stack.</em></h2></div><p>Tools I use. Systems I understand. Teams I help move forward.</p></div><div class="skills-grid">${r.skills.map((s) => `<article><h3>${e(s.name)}</h3><ul>${s.items.map((item) => `<li>${e(item)}</li>`).join('')}</ul></article>`).join('')}</div></section>
     <section id="work" class="section work-section shell" aria-labelledby="work-title">
-      <div class="section-heading"><div><p class="eyebrow">03 / Selected Cisco work</p><h2 id="work-title">Skills in <em>practice.</em></h2></div><p>Practical changes to how security software gets built, tested and delivered.</p></div>
+      <div class="section-heading"><div><p class="eyebrow">02 / Selected Cisco work</p><h2 id="work-title">Skills in <em>practice.</em></h2></div><p>Practical changes to how security software gets built, tested and delivered.</p></div>
       <div class="work-grid">${r.work.map((w, index) => `<article class="work-card work-${index}" aria-labelledby="${w.id}-title"><div class="card-top"><span>${String(index + 1).padStart(2, '0')} / ${e(w.category)}</span><span>${e(w.dates)}</span></div><h3 id="${w.id}-title">${e(w.title)}</h3><p class="work-summary">${e(w.summary)}</p><ul class="evidence">${w.bullets.map((b) => `<li>${e(b)}</li>`).join('')}</ul><ul class="tags" aria-label="Tools and focus">${w.tags.map((t) => `<li>${e(t)}</li>`).join('')}</ul></article>`).join('')}</div>
+    </section>
+    <section id="career" class="section career-history shell" aria-labelledby="career-title">
+      <div class="section-heading"><div><p class="eyebrow">03 / Career experience</p><h2 id="career-title">A track record of <em>delivery.</em></h2></div><p>One formal role, with work spanning quality automation, cloud infrastructure, secure delivery and team leadership.</p></div>
+      <article class="history-entry">
+        <header class="history-header"><div><h3>${e(r.employer)}</h3><p>${e(r.title)} <span aria-hidden="true">·</span> ${e(r.tenure)}</p></div><strong>${e(r.grade)}</strong></header>
+        <ul class="history-highlights">${r.careerHighlights.map((item) => `<li><span class="date">${e(item.dates)}</span><p>${e(item.text)}</p></li>`).join('')}</ul>
+        <div class="history-leadership"><div><h4>Responsibility phases</h4><ul class="phase-inline">${r.phases.map((p) => `<li><strong>${e(p.name)}</strong><span>${e(p.dates)}</span></li>`).join('')}</ul><p>${e(r.management)}</p></div><div><h4>${e(r.certification.name)} · ${e(r.certification.date)}</h4><p>${e(r.certification.activities)}</p></div></div>
+      </article>
+      <aside class="history-education" aria-labelledby="education-title"><p class="eyebrow">Education · ${e(r.education.year)}</p><h3 id="education-title">${e(r.education.institution)}</h3><p>${e(r.education.qualification)}</p></aside>
     </section>
     <section id="approach" class="approach-band" aria-labelledby="approach-title"><div class="section shell"><div class="section-heading"><div><p class="eyebrow">04 / How I work</p><h2 id="approach-title">Good engineering.<br><em>Grounded in practice.</em></h2></div></div><div class="approach-grid">${r.approach.map((a, i) => `<article><span class="approach-number">0${i + 1}</span><h3>${e(a.title)}</h3><p>${e(a.text)}</p></article>`).join('')}</div></div></section>
     <section id="personal" class="section shell" aria-labelledby="personal-title"><div class="section-heading"><div><p class="eyebrow">05 / Off the clock</p><h2 id="personal-title">A builder.<br><em>Not just at work.</em></h2></div><p>A few things that keep me curious, creative and connected.</p></div><div class="personal-grid">${r.personal.map((p, i) => `<article class="personal-card"><div class="personal-icon" aria-hidden="true">${i === 0 ? '01 / PLAYBOOK' : '02 / SOUND CHECK'}</div><p class="eyebrow">${e(p.category)}</p><h3>${e(p.title)}</h3><p class="date">${e(p.dates)}</p><p>${e(p.text)}</p><div class="personal-links">${links(p.links)}</div></article>`).join('')}</div></section>

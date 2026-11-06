@@ -12,6 +12,8 @@ test('semantic page exposes every shared career fact without JavaScript', () => 
   for (const value of [
     r.name, r.headline, r.introduction, r.title, r.tenure, r.grade, r.management,
     ...r.phases.flatMap((p) => [p.name, p.dates]),
+    ...r.careerHighlights.flatMap((item) => [item.dates, item.text]),
+    r.certification.name, r.certification.date, r.certification.activities,
     ...r.work.flatMap((w) => [w.title, w.summary, w.dates, ...w.bullets, ...w.tags]),
     ...r.skills.flatMap((s) => s.items),
     ...r.approach.flatMap((a) => [a.title, a.text]),
@@ -24,6 +26,7 @@ test('semantic page exposes every shared career fact without JavaScript', () => 
   assert.doesNotMatch(html, /without stepping away from the work|not held throughout my tenure|Overlapping scopes within my formal Software Developer role|Scrum facilitation \/ master/);
   assert.equal((html.match(/<h1\b/g) ?? []).length, 1);
   assert.ok(html.indexOf('id="toolkit"') < html.indexOf('id="work"'), 'Skills should precede selected work on the page');
+  assert.ok(html.indexOf('id="work"') < html.indexOf('id="career"'), 'Career experience should follow Skills in practice');
   assert.match(html, /aria-label="Engineering strengths"/);
   assert.match(html, /Quality-minded automation/);
   assert.doesNotMatch(html.slice(0, html.indexOf('id="work"')), /Windows SonarQube stage|45-60|4-10/);
@@ -64,7 +67,8 @@ test('generated PDF is two searchable pages, contains shared facts and live link
   for (const fact of [
     r.name, r.headline, r.introduction, r.title, r.tenure, r.grade, r.management,
     ...r.phases.flatMap((p) => [p.name, p.dates]),
-    ...r.work.flatMap((w) => [w.summary, w.dates, ...w.bullets]),
+    ...r.careerHighlights.flatMap((item) => [item.dates, item.text]),
+    r.certification.name, r.certification.date, r.certification.activities,
     ...r.skills.flatMap((s) => s.items),
     ...r.approach.flatMap((a) => [a.title, a.text]),
     ...Object.values(r.education),
@@ -78,6 +82,6 @@ test('generated PDF is two searchable pages, contains shared facts and live link
   }
   assert.match(pages[0], /1 \/ 2/);
   assert.match(pages[1], /2 \/ 2/);
-  assert.ok(pages[0].toLowerCase().indexOf('skills') < pages[0].toLowerCase().indexOf('selected cisco work'), 'Skills should precede work in the resume');
+  assert.ok(pages[0].toLowerCase().indexOf('skills') < pages[0].toLowerCase().indexOf('career experience'), 'Qualifications should precede career experience in the resume');
   await loading.destroy();
 });

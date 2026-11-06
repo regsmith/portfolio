@@ -60,7 +60,7 @@ try {
   assert.equal(await page.locator('.button').first().evaluate((el) => getComputedStyle(el).transitionDuration), '0s');
   await page.emulateMedia({ media: 'print' });
   assert.equal(await page.locator('.site-header').isVisible(), false);
-  assert.equal(await page.getByRole('heading', { name: 'One career. Expanding responsibility.' }).isVisible(), true);
+  assert.equal(await page.getByRole('heading', { name: 'A track record of delivery.' }).isVisible(), true);
   assert.deepEqual(errors, []);
 
   const noJs = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 375, height: 812 } });
@@ -68,7 +68,7 @@ try {
   await plainPage.goto(base);
   assert.equal(await plainPage.getByRole('navigation').isVisible(), true);
   await plainPage.getByRole('navigation').getByRole('link', { name: 'Experience', exact: true }).click();
-  assert.equal(new URL(plainPage.url()).hash, '#experience');
+  assert.equal(new URL(plainPage.url()).hash, '#career');
   assert.ok(await plainPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
   await noJs.close();
   console.log('Browser checks passed: 8 viewport widths, axe accessibility, keyboard/touch menu, navigation, no-JS fallback, PDF download, print and reduced motion.');
