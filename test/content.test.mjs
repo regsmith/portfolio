@@ -23,6 +23,10 @@ test('semantic page exposes every shared career fact without JavaScript', () => 
   assert.ok(html.includes('Scrum facilitation'));
   assert.doesNotMatch(html, /without stepping away from the work|not held throughout my tenure|Overlapping scopes within my formal Software Developer role|Scrum facilitation \/ master/);
   assert.equal((html.match(/<h1\b/g) ?? []).length, 1);
+  assert.ok(html.indexOf('id="toolkit"') < html.indexOf('id="work"'), 'Skills should precede selected work on the page');
+  assert.match(html, /aria-label="Engineering strengths"/);
+  assert.match(html, /Quality-minded automation/);
+  assert.doesNotMatch(html.slice(0, html.indexOf('id="work"')), /Windows SonarQube stage|45-60|4-10/);
   assert.match(html, /<html lang="en">/);
   assert.match(html, /<main id="main">/);
   const structured = JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
@@ -74,5 +78,6 @@ test('generated PDF is two searchable pages, contains shared facts and live link
   }
   assert.match(pages[0], /1 \/ 2/);
   assert.match(pages[1], /2 \/ 2/);
+  assert.ok(pages[0].toLowerCase().indexOf('skills') < pages[0].toLowerCase().indexOf('selected cisco work'), 'Skills should precede work in the resume');
   await loading.destroy();
 });

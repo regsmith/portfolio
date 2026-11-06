@@ -47,22 +47,22 @@ export async function generateResume(path) {
   text('Responsibility phases:', 10);
   for (const p of r.phases) text(`${p.name}: ${p.dates}`, 10);
   text(r.management, 10);
-  heading('Selected Cisco work');
-  project(r.work[0]);
-  project(r.work[1]);
-  project(r.work[2]);
-
-  doc.addPage();
-  doc.font('Helvetica-Bold').fontSize(16).fillColor(ink).text(r.name, { width });
-  text('Resume / continued', 9);
-  heading('Selected Cisco work / continued');
-  project(r.work[3]);
   heading('Skills');
   for (const group of r.skills) {
     title(group.name);
     text(group.items.join(' / '), 10);
     doc.moveDown(.3);
   }
+  heading('Selected Cisco work');
+  project(r.work[0]);
+  project(r.work[1]);
+
+  doc.addPage();
+  doc.font('Helvetica-Bold').fontSize(16).fillColor(ink).text(r.name, { width });
+  text('Resume / continued', 9);
+  heading('Selected Cisco work / continued');
+  project(r.work[2]);
+  project(r.work[3]);
   heading('How I work');
   for (const approach of r.approach) {
     title(approach.title);
