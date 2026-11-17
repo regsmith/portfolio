@@ -31,3 +31,13 @@ Edit **`src/content.mjs`** for professional facts, dates, evidence, skills, pers
 Keep the formal title separate from responsibility phases and current grade. The published timing comparison applies only to the Windows SonarQube stage. Do not add private contact information, internal project details or unapproved metrics.
 
 The site uses relative asset and PDF links so it can be served from a subdirectory. Deploy the contents of `dist/` to a static host when hosting is in scope. No domain or canonical URL is assumed.
+
+## GitHub Pages
+
+`.github/workflows/pages.yml` prepares GitHub Pages deployment using Node.js 24 and official GitHub actions pinned to commit hashes. Pull requests targeting `main` run build, PDF/content and responsive/accessibility checks without deploying. Pushes to `main`, or a manual run on `main`, deploy only the verified `dist/` artifact. The build token has read-only repository access; only the separate deployment job has Pages and OIDC write permissions.
+
+Before the first deployment, a repository administrator must enable Pages with **GitHub Actions** as the source, confirm repository visibility/plan eligibility, and configure protection for `main` (require pull requests, block force pushes and deletion; outside approval is not required). These repository settings are not created by this workflow. The `github-pages` deployment environment should permit only `main`.
+
+The expected project-site path is `https://regsmith.github.io/portfolio/`. No base-path rewrite is needed: local assets, resume downloads and section anchors resolve beneath `/portfolio/`. No custom domain is configured.
+
+Publish only the explicit sanitized production branch. Local privacy-backup refs, checkpoint refs and reflogs retain the original commit identities for recovery and must never be mirrored to GitHub. Do not use `git push --mirror`.

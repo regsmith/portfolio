@@ -44,6 +44,25 @@ test('HTML escaping prevents content from changing markup', () => {
   assert.equal(escapeHtml('<a title="x">&\'</a>'), '&lt;a title=&quot;x&quot;&gt;&amp;&#39;&lt;/a&gt;');
 });
 
+test('all local assets, downloads and anchors resolve beneath the Pages project path', async () => {
+  const html = renderPage();
+  const base = new URL('https://regsmith.github.io/portfolio/');
+  const targets = [...html.matchAll(/\b(?:href|src)="([^"]+)"/g)].map((match) => match[1]);
+  const localTargets = targets.filter((target) => !target.startsWith('https://'));
+  assert.ok(localTargets.includes('./reginald-smith-resume.pdf'));
+  for (const target of localTargets) {
+    const url = new URL(target, base);
+    assert.equal(url.origin, base.origin);
+    assert.ok(url.pathname.startsWith(base.pathname), `Target escapes project path: ${target}`);
+    if (url.hash) {
+      assert.ok(html.includes(`id="${url.hash.slice(1)}"`), `Missing section: ${target}`);
+    } else {
+      const file = await readFile(new URL(`../dist/${url.pathname.slice(base.pathname.length)}`, import.meta.url));
+      assert.ok(file.byteLength > 0, `Empty generated file: ${target}`);
+    }
+  }
+});
+
 test('generated PDF is two searchable pages, contains shared facts and live links, and does not clip', async () => {
   const bytes = await readFile(new URL('../dist/reginald-smith-resume.pdf', import.meta.url));
   assert.equal(bytes.subarray(0, 5).toString(), '%PDF-');
